@@ -13,7 +13,7 @@ def absMax(x):
         return negMax
 
 def EigenFunction(A,max_iter=1000):
-    x = np.ones((A.shape[0],1))*2
+    x = np.ones((A.shape[0],1))
     for k in range(max_iter):
         x = A@x
         x = x /abs(x)
