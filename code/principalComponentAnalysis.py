@@ -2,6 +2,7 @@
 #https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors#Calculation
 
 import numpy as np
+import matplotlib.pyplot as plt
 import inspect
 
 def GershgorinFunction(A):
@@ -19,7 +20,7 @@ def EigenPowerFunction(A,max_iter=1000):
         x = A@x
         x = x /np.max(abs(x))
     s = (A@x)/x
-    return x,s[0]
+    return x,round(s[0],5)
 
 def EigenShiftedPowerFunction(A,alpha,max_iter=1000):
     I = np.identity(A.shape[0])
@@ -31,8 +32,7 @@ def EigenShiftedPowerFunction(A,alpha,max_iter=1000):
         x = x/np.linalg.norm(x)
     w = (sA@x)/x
     s = (1/w[0]) + alpha
-    return x,s
-
+    return x,round(s[0],5)
 
 # if not any(((e==EigenVector).all() for e in EigenVectorList)) and not any(((-1*e==EigenVector).all() for e in EigenVectorList)):
 #     EigenVectorList.append(EigenVector)
@@ -57,22 +57,30 @@ def EigenFunction(A):
             EigenValueList.append(EigenValue)
     return EigenVectorList, EigenValueList
 
-def lol(List,A):
-    for i in (True for elem in List if np.array_equal(elem, A)):
-        yield i
-
-
-x = np.random.normal([0,1],[1,2],(3,2))
+x = np.random.multivariate_normal([1,1],[[5,3],[3,10]],1000)
+print(x.shape)
 m = x.shape[0]
 
 mu = np.sum(x,axis = 0)/m
-sigma = np.sqrt(np.sum(np.square(x-mu),axis = 0)/m)
-
-x = (x-mu)/sigma
-
+# sigma = np.sqrt(np.sum(np.square(x-mu),axis = 0)/m)
+x = (x-mu)
 Covariance = (np.transpose(x)@x)/m
 
-A = np.array([[2,1],[1,2]])
-List = [np.sqrt(A),np.square(A),A]
+print(Covariance)
 
-print(EigenFunction(A))
+v, s = EigenFunction(Covariance)
+print(v)
+print(s)
+
+maxComponent = s.index(max(s))
+
+plt.hist(x@v[maxComponent])
+plt.show()
+
+gradient = v[maxComponent][1]/v[maxComponent][0]
+
+linspace = np.linspace(-5,5,100)
+f = [gradient*i for i in linspace]
+plt.plot(linspace,f,color = 'r')
+plt.scatter(x[:,0],x[:,1])
+plt.show()
