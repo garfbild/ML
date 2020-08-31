@@ -58,7 +58,6 @@ def EigenFunction(A):
     return EigenVectorList, EigenValueList
 
 x = np.random.multivariate_normal([1,1],[[5,3],[3,10]],1000)
-print(x.shape)
 m = x.shape[0]
 
 mu = np.sum(x,axis = 0)/m
@@ -66,12 +65,7 @@ mu = np.sum(x,axis = 0)/m
 x = (x-mu)
 Covariance = (np.transpose(x)@x)/m
 
-print(Covariance)
-
 v, s = EigenFunction(Covariance)
-print(v)
-print(s)
-
 maxComponent = s.index(max(s))
 
 plt.hist(x@v[maxComponent])
