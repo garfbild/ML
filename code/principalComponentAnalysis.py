@@ -57,6 +57,10 @@ def EigenFunction(A):
             EigenValueList.append(EigenValue)
     return EigenVectorList, EigenValueList
 
+v, s = EigenFunction(np.array([[-6,3],[4,5]]))
+print(v,s)
+
+
 x = np.random.multivariate_normal([1,1],[[5,3],[3,10]],1000)
 m = x.shape[0]
 
