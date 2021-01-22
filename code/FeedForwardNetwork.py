@@ -16,7 +16,6 @@ class DenseLayer():
         a = Sigmoid(z)
         return z,a
 
-
 class Model():
     def __init__(self):
         self.layers = []
