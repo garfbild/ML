@@ -14,7 +14,7 @@ def GershgorinFunction(A):
 
     return centre, radius
 
-def EigenPowerFunction(A,max_iter=1000):
+def EigenPowerFunction(A,max_iter=10000):
     x = np.ones((A.shape[0],1))
     for k in range(max_iter):
         x = A@x
@@ -22,7 +22,7 @@ def EigenPowerFunction(A,max_iter=1000):
     s = (A@x)/x
     return x,round(s[0],5)
 
-def EigenShiftedPowerFunction(A,alpha,max_iter=1000):
+def EigenShiftedPowerFunction(A,alpha,max_iter=10000):
     I = np.identity(A.shape[0])
     sA = np.linalg.inv(A - alpha*I)
     x = np.random.rand(A.shape[0],1)
@@ -55,10 +55,16 @@ def EigenFunction(A):
         if EigenValue not in EigenValueList:
             EigenVectorList.append(EigenVector)
             EigenValueList.append(EigenValue)
-    return EigenVectorList, EigenValueList
+    return EigenVectorList, EigenValueList #should include a check that the eigen values and corresponding eigen value actuallly work
 
 v, s = EigenFunction(np.array([[-6,3],[4,5]]))
 print(v,s)
+v, s = EigenFunction(np.array([[-1,2,0],[1,-1,2],[0,1,-1]]))
+print("here")
+print(s)
+print(v)
+print("end")
+
 
 
 x = np.random.multivariate_normal([1,1],[[5,3],[3,10]],1000)
