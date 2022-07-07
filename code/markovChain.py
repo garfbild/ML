@@ -23,7 +23,7 @@ class markovChain:
     def nextNode(self,i):
         a = random.random()
         if a < self._alpha:
-            return random.randint(0, self._n)
+            return random.randint(0, self._n-1)
         s = 0
         r = random.random()
         for j in range(self._n):
@@ -36,7 +36,7 @@ class markovChain:
         S = []
         for i in range(n):
             s = []
-            start = random.randint(0, self._n)
+            start = random.randint(0, self._n-1)
             s.append(start)
             n = self.nextNode(start)
             while n != -1:
@@ -48,6 +48,7 @@ class markovChain:
 
 import csv
 
+#reading tweets from csv
 tweets = []
 with open('code\Data\@tweetmynuts4_user_tweets.csv', newline='', encoding="utf8") as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
@@ -62,17 +63,20 @@ tweets = tweets[1:]
 
 import string
 
+#create word bank
 words = []
 dictionary = {}
 for tweet in tweets:
     for word in tweet.split():
-        if word[0] != "@" and word[0:5] != "https" and word not in words:
+        if word[0] != "@" and word[0:5] != "https" and word.translate(str.maketrans('', '', string.punctuation)) not in words:
             words.append(word.translate(str.maketrans('', '', string.punctuation)))
             dictionary[word.translate(str.maketrans('', '', string.punctuation))] = len(words)-1
 
 print(words)
 n = len(words)
 print(dictionary)
+
+#create adjacency matrix of first order
 adjacencyMatrix = np.zeros([n,n])
 for tweet in tweets:
     spleet = tweet.split()
